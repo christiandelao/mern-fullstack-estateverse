@@ -10,6 +10,7 @@ const [file, setFile] = useState(undefined);
 const [filePerc, setFilePerc] = useState(0);
 const [fileUploadError, setFileUploadError] = useState(false);
 const [formData, setFormData] = useState({});
+const [updateSuccess, setUpdateSuccess] = useState(false);
 const dispatch = useDispatch();
 useEffect(()=>{
     if(file){
@@ -60,6 +61,7 @@ const handleSubmit = async (e) =>{
             return
         }
         dispatch(updateUserSuccess(data));
+        setUpdateSuccess(true);
     } catch (error) {
         dispatch(updateUserFailure(error.message))
     }
@@ -97,6 +99,9 @@ return (
         </div>
         <p className="text-red-700 mt-5 text-center">
             {error ? error: ''}
+        </p>
+        <p className="text-green-700 mt-5 text-center">
+            {updateSuccess ? 'User has been updated!': ''}
         </p>
     </div>
 )
