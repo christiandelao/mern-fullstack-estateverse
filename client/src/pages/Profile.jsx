@@ -3,7 +3,9 @@ import { useRef, useState, useEffect } from "react"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
 import { Link } from 'react-router-dom';
 import { app } from "../firebase";
-import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from "../redux/user/userSlice.js";
+import { deleteUserFailure, deleteUserStart, deleteUserSuccess, updateUserFailure, updateUserStart, updateUserSuccess,signOutUserStart,
+    signOutUserSuccess,
+    signOutUserFailure  } from "../redux/user/userSlice.js";
 export default function Profile() {
 const {currentUser, loading, error} = useSelector((state)=>state.user)
 const fileRef = useRef(null);
@@ -89,16 +91,16 @@ const handleDeleteUser = async () =>{
 
 const handleSignOut = async () =>{
     try {
-        dispatch(updateUserStart());
+        dispatch(signOutUserStart());
         const res = await fetch ('/api/auth/signout');
         const data = await res.json();
         if (data.success === false){
-            dispatch(updateUserFailure(data.message));
+            dispatch(signOutUserFailure(data.message));
             return;
         }
-        dispatch(deleteUserSuccess(data));
+        dispatch(signOutUserSuccess(data));
     } catch (error) {
-        dispatch(updateUserFailure(error.message))
+        dispatch(signOutUserFailure(error.message))
     }
 }
 
@@ -115,6 +117,22 @@ const handleShowListings = async () =>{
         setUserListings(data);
     } catch (error) {
         setShowListingsError(true);
+    }
+}
+
+const handleListingDelete = async (listingId)=>{
+    try {
+        const res = await fetch (`/api/listing/delete/${listingId}`,{
+            method:'DELETE'
+        })
+        const data = await res.json()
+        if (data.success === false){
+            console.log(data.message);
+            return
+        }
+        setUserListings((prev)=> prev.filter((listing)=> listing._id !== listingId));
+    } catch (error) {
+        console.log(error.message);
     }
 }
 return ( 
@@ -172,7 +190,7 @@ return (
                             <p>{listing.name}</p>
                         </Link>
                         <div className="flex flex-col items-center">
-                            <button className="text-red-700 uppercase">Delete</button>
+                            <button onClick={()=>handleListingDelete(listing._id)} className="text-red-700 uppercase">Delete</button>
                             <button className="text-green-700 uppercase">Edit</button>
                         </div>
                     </div>
