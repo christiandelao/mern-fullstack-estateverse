@@ -47,7 +47,6 @@ useEffect(() => {
     };
     fetchListing();
 }, [params.listingId]);
-
 return (
     <main>
     {loading && <p className='text-center my-7 text-2xl'>Loading...</p>}
@@ -58,14 +57,11 @@ return (
         <div>
         <Swiper navigation>
             {listing.imageUrls.map((url) => (
-            <SwiperSlide key={url}>
-                <div
-                className='h-[550px]'
-                style={{
-                    background: `url(${url}) center no-repeat`,
-                    backgroundSize: 'cover',
-                }}
-                ></div>
+            <SwiperSlide>
+                <div key={url}
+                className='flex items-center justify-center h-[550px] '>
+                    <img src={url} alt="listing image" className='max-w-full '/>
+                </div>
             </SwiperSlide>
             ))}
         </Swiper>
