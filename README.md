@@ -1,4 +1,14 @@
-Hello! This is my project called EstateVerse. EstateVerse is a full stack real estate listing application created with MERN. 
-To run with a terminal change directories to client and type 'npm run dev' 
-as well as have a split terminal with the directory being the root folder and use npm run dev.
-Thank you and I hope you enjoy. 
+# Full Stack MERN project EstateVerse
+
+# A advanced CRUD real estate listing application written in MERN
+
+EstateVerse is my most advanced project yet. I was able to create app that allows users to: 
+
+* Login using Google OAuth
+* Engage in a beautifully designed UI using Tailwind CSS
+* Upload house listings with many different customization options
+* Contact the landlords of any listing through email
+* Search for specific listings using Search functionality 
+
+# Deployed using onrender:
+ https://mern-estateverse.onrender.com/
